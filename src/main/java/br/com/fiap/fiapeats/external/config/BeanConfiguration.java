@@ -2,12 +2,17 @@ package br.com.fiap.fiapeats.external.config;
 
 import br.com.fiap.fiapeats.adapter.controller.PagamentoController;
 import br.com.fiap.fiapeats.adapter.gateway.integration.impl.PagamentoGatewayImpl;
+import br.com.fiap.fiapeats.adapter.gateway.integration.impl.PedidoGatewayImpl;
 import br.com.fiap.fiapeats.adapter.gateway.integration.interfaces.PagamentoIntegration;
+import br.com.fiap.fiapeats.adapter.gateway.integration.interfaces.PedidoIntegration;
 import br.com.fiap.fiapeats.external.integration.feign.AutenticacaoFeign;
+import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
 import br.com.fiap.fiapeats.external.integration.feign.PedidoPagamentoFeign;
 import br.com.fiap.fiapeats.external.integration.impl.PagamentoIntegrationImpl;
+import br.com.fiap.fiapeats.external.integration.impl.PedidoIntegrationImpl;
 import br.com.fiap.fiapeats.external.integration.mapper.PagamentoIntegrationMapper;
 import br.com.fiap.fiapeats.external.integration.mapper.PagamentoPedidoIntegrationMapper;
+import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.AtualizarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.CriarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
@@ -38,6 +43,11 @@ public class BeanConfiguration {
   }
 
   @Bean
+  public PedidoGateway pedidoGateway(PedidoIntegration pedidoIntegration) {
+    return new PedidoGatewayImpl(pedidoIntegration);
+  }
+
+  @Bean
   public PagamentoIntegration pagamentoIntegration(
       AutenticacaoFeign autenticacaoFeign,
       PedidoPagamentoFeign pedidoPagamentoFeign,
@@ -45,6 +55,13 @@ public class BeanConfiguration {
       PagamentoPedidoIntegrationMapper pedidoIntegrationMapper) {
     return new PagamentoIntegrationImpl(
         autenticacaoFeign, pedidoPagamentoFeign, pagamentoIntegrationMapper, pedidoIntegrationMapper);
+  }
+
+  @Bean
+  public PedidoIntegration pedidoIntegration(
+          PedidoFeign pedidoFeign, PedidoIntegrationMapper pedidoIntegrationMapper) {
+    return new PedidoIntegrationImpl(
+            pedidoFeign, pedidoIntegrationMapper);
   }
 
   @Bean

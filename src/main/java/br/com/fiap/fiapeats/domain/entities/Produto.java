@@ -9,14 +9,9 @@ public class Produto {
     private String nome;
     private String descricao;
     private BigDecimal valor;
-    private Categoria categoria;
+    private String categoria;
 
-    public Produto(
-            UUID id,
-            String nome,
-            String descricao,
-            BigDecimal valor,
-            Categoria categoria) {
+    public Produto(UUID id, String nome, String descricao, BigDecimal valor, String categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -40,8 +35,7 @@ public class Produto {
         return valor;
     }
 
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
-
 }

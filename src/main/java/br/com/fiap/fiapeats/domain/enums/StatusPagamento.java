@@ -1,41 +1,36 @@
 package br.com.fiap.fiapeats.domain.enums;
 
 public enum StatusPagamento {
-    PENDENTE(1, "Pendente"),
-    APROVADO(2, "Aprovado"),
-    REJEITADO(3, "Recusado"),
-    EM_ANALISE(4, "Em Análise"),
-    ESTORNADO(5, "Estornado"),
-    CANCELADO(6, "Cancelado"),
-    DESCONHECIDO(0, "Desconhecido");
+    PENDENTE(1, "PENDENTE"),
+    APROVADO(2, "APROVADO"),
+    RECUSADO(3, "RECUSADO"),
+    EM_ANALISE(4, "EM_ANALISE"),
+    ESTORNADO(5, "ESTORNADO"),
+    CANCELADO(6, "CANCELADO"),
+    DESCONHECIDO(7, "DESCONHECIDO");
 
     private final int codigo;
-    private final String descricao;
+    private final String nome;
 
-    StatusPagamento(int codigo, String descricao) {
+    StatusPagamento(int codigo, String nome) {
         this.codigo = codigo;
-        this.descricao = descricao;
+        this.nome = nome;
     }
 
     public int getCodigo() {
         return codigo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome(){
+        return nome;
     }
 
-    public static String obterDescricaoPorCodigo(Long codigoStatus) {
-        if (codigoStatus == null) {
-            return "Código de status inválido";
-        }
-
+    public static int get(String nome) {
         for (StatusPagamento status : StatusPagamento.values()) {
-            if (status.getCodigo() == codigoStatus.intValue()) {
-                return status.getDescricao();
+            if (status.getNome().equals(nome)) {
+                return status.codigo;
             }
         }
-
-        return DESCONHECIDO.getDescricao();
+        throw new IllegalArgumentException("Nome inválido: " + nome);
     }
 }

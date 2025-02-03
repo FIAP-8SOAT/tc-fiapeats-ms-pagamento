@@ -18,23 +18,7 @@ spec:
         - name: fiapeats-api-container
           image: 980921733871.dkr.ecr.us-east-1.amazonaws.com/fiapeats-api:latest
           ports:
-            - containerPort: 8080
-          env:
-            - name: DATASOURCE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: configmap
-                  key: spring.datasource.url
-            - name: DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: fiapeats-secret
-                  key: spring.datasource.username
-            - name: DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: fiapeats-secret
-                  key: spring.datasource.password
+            - containerPort: 8081
           resources:
             limits:
               memory: "512Mi"
@@ -45,13 +29,13 @@ spec:
           readinessProbe:
             httpGet:
               path: /fiapeats/actuator/health
-              port: 8080
+              port: 8081
             initialDelaySeconds: 90
             periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /fiapeats/actuator/health
-              port: 8080
+              port: 8081
             initialDelaySeconds: 105
             periodSeconds: 10
 

@@ -1,63 +1,12 @@
 name: fiapeats-environment
 services:
-  postgres:
-    container_name: postgres_container
-    image: postgres
-    environment:
-      POSTGRES_USER: sa
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: fiapeatsdb
-      PGDATA: /var/lib/postgresql/data
-
-    profiles: [database, envfull]
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./sqlScripts:/docker-entrypoint-initdb.d
-
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
-    restart: unless-stopped
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    profiles: [database, envfull]
-    environment:
-      PGADMIN_DEFAULT_EMAIL: dilan_limacampos@hotmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-
-    ports:
-      - "5050:80"
-    networks:
-      - postgres
-
-    restart: unless-stopped
-
   fiapeats-api:
     container_name: api-container
     build:
       context: .
       dockerfile: Dockerfile
     image: tc-fiapeats-api:latest
-    profiles: [app, envfull]
+    profiles: [app]
     restart: on-failure
     ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    env_file: "variables/ambient.env"
-    networks:
-      - postgres
-
-networks:
-  postgres:
-    driver: bridge
-
-volumes:
-  postgres_data:
-  pgadmin_data:
+      - "8081:8081"

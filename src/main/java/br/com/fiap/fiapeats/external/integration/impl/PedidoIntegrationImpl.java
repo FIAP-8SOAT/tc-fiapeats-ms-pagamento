@@ -7,6 +7,7 @@ import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
 import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
+import org.springframework.http.HttpStatusCode;
 
 @Slf4j
 public class PedidoIntegrationImpl implements PedidoIntegration {
@@ -29,5 +30,16 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
                     + "[PedidoIntegrationImpl-consultarPedido] ");
 
     return mapper.toPedido(pedidoFeign.consultar(idPedido).orElse(null));
+  }
+
+  @Override
+  public int atualizarStatusPagamento(String idPedido, Long idStatusPagamento) {
+    log.info(
+            "correlationId={"
+                    + ThreadContext.get(Constants.CORRELATION_ID)
+                    + "} "
+                    + "[PedidoIntegrationImpl-atualizarStatusPagamento] ");
+
+    return pedidoFeign.atualizarStatusPagamento(idPedido, idStatusPagamento).getStatusCode().value();
   }
 }
