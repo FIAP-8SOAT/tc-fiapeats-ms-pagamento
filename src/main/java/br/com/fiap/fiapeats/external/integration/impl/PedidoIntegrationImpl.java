@@ -2,12 +2,13 @@ package br.com.fiap.fiapeats.external.integration.impl;
 
 import br.com.fiap.fiapeats.adapter.gateway.integration.interfaces.PedidoIntegration;
 import br.com.fiap.fiapeats.domain.entities.Pedido;
+import br.com.fiap.fiapeats.domain.enums.StatusPagamento;
 import br.com.fiap.fiapeats.domain.utils.Constants;
 import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
+import br.com.fiap.fiapeats.external.integration.feign.request.AtualizarPagamentoPedidoRequest;
 import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
-import org.springframework.http.HttpStatusCode;
 
 @Slf4j
 public class PedidoIntegrationImpl implements PedidoIntegration {
@@ -33,13 +34,15 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
   }
 
   @Override
-  public int atualizarStatusPagamento(String idPedido, Long idStatusPagamento) {
+  public int atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento) {
     log.info(
             "correlationId={"
                     + ThreadContext.get(Constants.CORRELATION_ID)
                     + "} "
                     + "[PedidoIntegrationImpl-atualizarStatusPagamento] ");
 
-    return pedidoFeign.atualizarStatusPagamento(idPedido, idStatusPagamento).getStatusCode().value();
+    var teste = pedidoFeign.atualizarStatusPagamento(idPedido, new AtualizarPagamentoPedidoRequest(statusPagamento.getCodigo(), statusPagamento.getNome()));
+
+    return teste.getStatusCode().value();
   }
 }

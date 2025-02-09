@@ -1,10 +1,8 @@
-package br.com.fiap.fiapeats.gateway;
+package br.com.fiap.fiapeats.adapter.gateway;
 
 import br.com.fiap.fiapeats.adapter.gateway.integration.impl.PagamentoGatewayImpl;
 import br.com.fiap.fiapeats.adapter.gateway.integration.interfaces.PagamentoIntegration;
 import br.com.fiap.fiapeats.domain.entities.*;
-import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
-import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,13 +14,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class PagamentoGatewayImplTest {
 
     @InjectMocks
-    private PagamentoGatewayImpl pagamentoGateway;
+    private PagamentoGatewayImpl pagamentoGatewayImpl;
     @Mock
     private PagamentoIntegration pagamentoIntegration;
     private Pagamento pagamento;
@@ -34,7 +32,7 @@ public class PagamentoGatewayImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         idPedido = UUID.randomUUID();
-        pagamento = new Pagamento(UUID.randomUUID(), "http:pedido-notificacao", "codigoQR");
+        pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
         pagamentoPedidoExterno = new PagamentoPedidoExterno(
                 "Pendente", "123", List.of(new PagamentoExterno("1", "Pendente")));
         pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, "Categoria")),
@@ -43,14 +41,15 @@ public class PagamentoGatewayImplTest {
 
     @Test
     void deveCriarCodigoPagamentoComSucesso() {
-        Pagamento pagamentoRequest = new Pagamento(UUID.randomUUID(), "http:pedido-notificacao", null);
+        Pagamento pagamentoRequest = new Pagamento(idPedido, "http:pedido-notificacao", null);
 
         when(pagamentoIntegration.criarCodigoPagamento(pedido, pagamentoRequest)).thenReturn(pagamento);
 
-        Pagamento response = pagamentoGateway.criar(pedido, pagamentoRequest);
+        Pagamento response = pagamentoGatewayImpl.criar(pedido, pagamentoRequest);
 
-        assertThat(response).isNotNull();
-        assertThat(response.getCodigoQr()).isEqualTo("codigoQR");
+        assertNotNull(response);
+        assertEquals(response.getIdPedido(), idPedido);
+        assertEquals(response.getCodigoQr(), "codigoQR");
         verify(pagamentoIntegration, times(1)).criarCodigoPagamento(any(), any());
     }
 
@@ -58,10 +57,10 @@ public class PagamentoGatewayImplTest {
     void deveConsultarPagamentoPedidoComSucesso() {
         when(pagamentoIntegration.consultarStatusPagamentoPedido(idPedido.toString())).thenReturn(pagamentoPedidoExterno);
 
-        PagamentoPedidoExterno response = pagamentoGateway.consultar(idPedido.toString());
+        PagamentoPedidoExterno response = pagamentoGatewayImpl.consultar(idPedido.toString());
 
-        assertThat(response).isNotNull();
-        assertThat(response.getIdPedido()).isEqualTo("123");
+        assertNotNull(response);
+        assertEquals(response.getIdPedido(), "123");
         verify(pagamentoIntegration, times(1)).consultarStatusPagamentoPedido(any());
     }
 }

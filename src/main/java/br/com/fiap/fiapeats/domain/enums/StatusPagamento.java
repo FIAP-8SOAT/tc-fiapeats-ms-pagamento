@@ -1,23 +1,23 @@
 package br.com.fiap.fiapeats.domain.enums;
 
 public enum StatusPagamento {
-    PENDENTE(1, "PENDENTE"),
-    APROVADO(2, "APROVADO"),
-    RECUSADO(3, "RECUSADO"),
-    EM_ANALISE(4, "EM_ANALISE"),
-    ESTORNADO(5, "ESTORNADO"),
-    CANCELADO(6, "CANCELADO"),
-    DESCONHECIDO(7, "DESCONHECIDO");
+    PENDENTE(1L, "PENDENTE"),
+    APROVADO(2L, "APROVADO"),
+    RECUSADO(3L, "RECUSADO"),
+    EM_ANALISE(4L, "EM_ANALISE"),
+    ESTORNADO(5L, "ESTORNADO"),
+    CANCELADO(6L, "CANCELADO"),
+    DESCONHECIDO(7L, "DESCONHECIDO");
 
-    private final int codigo;
+    private final long codigo;
     private final String nome;
 
-    StatusPagamento(int codigo, String nome) {
+    StatusPagamento(long codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
     }
 
-    public int getCodigo() {
+    public long getCodigo() {
         return codigo;
     }
 
@@ -25,7 +25,7 @@ public enum StatusPagamento {
         return nome;
     }
 
-    public static int get(String nome) {
+    public static long get(String nome) {
         for (StatusPagamento status : StatusPagamento.values()) {
             if (status.getNome().equals(nome)) {
                 return status.codigo;

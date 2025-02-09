@@ -13,14 +13,6 @@ public class CriarPagamentoDTO {
     this.urlNotificacao = urlNotificacao;
   }
 
-  public void setIdPedido(UUID idPedido) {
-    this.idPedido = idPedido;
-  }
-
-  public void setUrlNotificacao(String urlNotificacao) {
-    this.urlNotificacao = urlNotificacao;
-  }
-
   public UUID getIdPedido() {
     return idPedido;
   }

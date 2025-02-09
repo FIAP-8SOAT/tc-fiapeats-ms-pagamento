@@ -60,14 +60,13 @@ public class PagamentoIntegrationImpl implements PagamentoIntegration {
                         p.getValor()))
             .toList();
 
-    return pagamentoIntegrationMapper.toPagamento(
-        pedidoPagamentoFeign.criar(
+    return pagamentoIntegrationMapper.toPagamento(pedidoPagamentoFeign.criar(
             obterToken(),
             new CriarPagamentoPedidoRequest(
-                pedido.getId().toString(),
-                pagamento.getUrlNotificacao(),
-                valorTotalProdutos(produtos),
-                produtos)));
+                    pedido.getId().toString(),
+                    pagamento.getUrlNotificacao(),
+                    valorTotalProdutos(produtos),
+                    produtos)));
   }
 
   @Override

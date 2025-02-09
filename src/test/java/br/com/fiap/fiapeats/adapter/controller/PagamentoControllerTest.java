@@ -1,8 +1,5 @@
-package br.com.fiap.fiapeats.controller;
+package br.com.fiap.fiapeats.adapter.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import br.com.fiap.fiapeats.adapter.controller.PagamentoController;
 import br.com.fiap.fiapeats.domain.entities.Pagamento;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoResponse;
@@ -14,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.UUID;
 
 public class PagamentoControllerTest {
@@ -24,24 +24,24 @@ public class PagamentoControllerTest {
     private  CriarPagamentoUseCase criarPagamentoUseCase;
     @Mock
     private  AtualizarPagamentoUseCase atualizarPagamentoUseCase;
-    private Pagamento pagamento;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        pagamento = new Pagamento(UUID.randomUUID(), "http:pedido-notificacao", "codigoQR");
     }
 
     @Test
     void deveCriarPagamentoComSucesso() {
-        CriarPagamentoDTO criarPagamentoDTO = new CriarPagamentoDTO(UUID.randomUUID(), "http:pedido-notificacao");
+        var idPedido = UUID.randomUUID();
+        CriarPagamentoDTO criarPagamentoDTO = new CriarPagamentoDTO(idPedido, "http:pedido-notificacao");
+        Pagamento pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
 
         when(criarPagamentoUseCase.criar(criarPagamentoDTO)).thenReturn(pagamento);
 
         CriarPagamentoResponse response = pagamentoController.criarPagamento(criarPagamentoDTO);
 
-        assertThat(response).isNotNull();
-        assertThat(response.getCodigoQR()).isEqualTo("codigoQR");
+        assertNotNull(response);
+        assertEquals(response.getCodigoQR(), "codigoQR");
         verify(criarPagamentoUseCase, times(1)).criar(criarPagamentoDTO);
     }
 

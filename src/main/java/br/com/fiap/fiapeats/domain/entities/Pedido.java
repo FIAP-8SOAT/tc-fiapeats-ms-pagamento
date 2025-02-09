@@ -29,53 +29,27 @@ public class Pedido {
         this.tempoEspera = tempoEspera;
     }
 
-    public Pedido() {}
-
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public List<Produto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
     public String getCliCpf() {
         return cliCpf;
-    }
-
-    public void setCliCpf(String cliCpf) {
-        this.cliCpf = cliCpf;
     }
 
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
     public LocalDateTime getDataHoraCriacao() {
         return dataHoraCriacao;
     }
 
-    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
-        this.dataHoraCriacao = dataHoraCriacao;
-    }
-
     public int getTempoEspera() {
         return tempoEspera;
-    }
-
-    public void setTempoEspera(int tempoEspera) {
-        this.tempoEspera = tempoEspera;
     }
 }

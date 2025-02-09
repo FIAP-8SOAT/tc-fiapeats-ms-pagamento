@@ -31,7 +31,7 @@ public class AtualizarPagamentoUseCaseImpl implements AtualizarPagamentoUseCase 
             }
 
             var response = pedidoGateway.atualizarStatusPagamento(
-                    pedido.getId().toString(), (long) obterStatusPagamento(pagamentoPedido).getCodigo());
+                    pedido.getId().toString(), obterStatusPagamento(pagamentoPedido));
 
             if (response != 200){
                 throw new RuntimeException("Erro ao atualizar o status do pagamento. HTTP: " + response);

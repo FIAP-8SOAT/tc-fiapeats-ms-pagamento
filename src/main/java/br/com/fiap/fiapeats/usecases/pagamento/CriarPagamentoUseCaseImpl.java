@@ -26,8 +26,8 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
     }
 
     return pagamentoGateway.criar(
-        pedido,
-        new Pagamento(
-            criarPagamentoDTO.getIdPedido(), criarPagamentoDTO.getUrlNotificacao(), null));
+            pedido,
+            new Pagamento(
+                    criarPagamentoDTO.getIdPedido(), criarPagamentoDTO.getUrlNotificacao(), null));
   }
 }
