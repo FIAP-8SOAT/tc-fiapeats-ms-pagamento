@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: tc-fiapeats-api:latest
-    profiles: [app, envfull]
+    profiles: [app]
     restart: on-failure
     ports:
       - "8081:8081"
