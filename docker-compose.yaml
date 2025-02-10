@@ -1,4 +1,4 @@
-name: fiapeats-environment
+name: fiapeats-pagamento-environment
 services:
   fiapeats-api:
     container_name: api-container
@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: tc-fiapeats-api:latest
-    profiles: [app]
+    profiles: [app, envfull]
     restart: on-failure
     ports:
       - "8081:8081"
+    env_file: "variables/ambient.env"

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@FeignClient(value = "api-consultarPedido", url = "http://localhost:8080/fiapeats", configuration = FeignConfig.class)
+@FeignClient(value = "api-consultarPedido", url = "${feign.pedido.url}", configuration = FeignConfig.class)
 public interface PedidoFeign {
 
     @GetMapping(value = "/pedido/{id}")

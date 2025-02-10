@@ -15,3 +15,11 @@ management:
     web:
       exposure:
         include: health
+
+feign:
+  pedido:
+    url: ${FEIGN_PEDIDO_URL}
+  autenticacao:
+    url: ${FEIGN_AUTENTICACAO_URL}
+  mercadoPago:
+    urk: ${FEIGN_MERCADOPAGO_URL}

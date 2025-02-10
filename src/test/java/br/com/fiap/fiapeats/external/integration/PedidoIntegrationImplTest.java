@@ -4,7 +4,6 @@ import br.com.fiap.fiapeats.domain.entities.Pedido;
 import br.com.fiap.fiapeats.domain.entities.Produto;
 import br.com.fiap.fiapeats.domain.enums.StatusPagamento;
 import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
-import br.com.fiap.fiapeats.external.integration.feign.request.AtualizarPagamentoPedidoRequest;
 import br.com.fiap.fiapeats.external.integration.feign.response.*;
 import br.com.fiap.fiapeats.external.integration.impl.PedidoIntegrationImpl;
 import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;

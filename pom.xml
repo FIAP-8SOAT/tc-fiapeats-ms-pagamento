@@ -12,7 +12,7 @@
 	<artifactId>fiapeats</artifactId>
 	<version>0.0.12</version>
 	<name>fiapeats</name>
-	<description>Projeto inicial do fiapeats</description>
+	<description>MS do contexto de Pagamento do projeto Fiapeats</description>
 	<properties>
 		<java.version>17</java.version>
 		<spotless.version>2.22.8</spotless.version>
@@ -107,14 +107,84 @@
 			<artifactId>feign-httpclient</artifactId>
 			<version>10.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<version>5.3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>5.3.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<version>5.3.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>7.21.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>7.21.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>7.21.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.21.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.6.0.Beta1</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -123,75 +193,103 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>report-package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report-install</id>
+						<phase>install</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>report</id>
-						<phase>verify</phase>
+						<phase>test</phase> <!-- Agora gera o relatório durante "test" -->
 						<goals>
 							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<rules>
+						<rule>
+							<element>CLASS</element>
+							<limits>
+								<limit>
+									<counter>METHOD</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.50</minimum>
+								</limit>
+							</limits>
+						</rule>
+					</rules>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.0.0-M7</version>
 				<configuration>
-					<properties>
-						<configurationParameters>
-							junit.jupiter.displayname.generator.default.remove-parent=true
-						</configurationParameters>
-					</properties>
-					<systemPropertyVariables>
-						<junit.jupiter.extensions.autodetection.enabled>true
-						</junit.jupiter.extensions.autodetection.enabled>
-						<allure.results.directory>${project.build.directory}/allure-results
-						</allure.results.directory>
-					</systemPropertyVariables>
+					<includes>
+						<include>**/*Test.java</include> <!-- Executa testes unitários -->
+					</includes>
+					<excludes>
+						<exclude>**/CucumberRunnerTest.java</exclude> <!-- Evita rodar o Cucumber -->
+					</excludes>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.aspectj</groupId>
-						<artifactId>aspectjweaver</artifactId>
-						<version>${aspectj.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.0.0-M7</version>
 				<executions>
 					<execution>
+						<id>integration-tests</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>io.qameta.allure</groupId>
-				<artifactId>allure-maven</artifactId>
-				<version>2.15.2</version>
 				<configuration>
-					<reportVersion>2.4.1</reportVersion>
-					<resultsDirectory>${project.build.directory}/allure-results/</resultsDirectory>
-					<reportDirectory>${project.build.directory}/allure-report</reportDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
-				<configuration>
-					<useModulePath>false</useModulePath>
+					<includes>
+						<include>**/*IT.java</include> <!-- Apenas classes terminadas com IT -->
+					</includes>
+					<excludes>
+						<exclude>**/*Test.java</exclude> <!-- Evita rodar o Cucumber -->
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>cucumber-tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.0.0-M7</version>
+						<configuration>
+							<includes>
+								<include>**/CucumberRunnerTest.java</include> <!-- Apenas o CucumberRunnerTest -->
+							</includes>
+							<excludes>
+								<exclude>**/*Test.java</exclude> <!-- Exclui outros testes unitários -->
+								<exclude>**/*IT.java</exclude> <!-- Exclui testes de integração -->
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
