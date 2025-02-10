@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.fiap</groupId>
 	<artifactId>fiapeats</artifactId>
-	<version>0.0.13</version>
+	<version>0.0.14</version>
 	<name>fiapeats</name>
 	<description>MS do contexto de Pagamento do projeto Fiapeats</description>
 	<properties>
