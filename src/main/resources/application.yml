@@ -18,8 +18,8 @@ management:
 
 feign:
   pedido:
-    url: ${FEIGN_PEDIDO_URL}
+    url: http://localhost:8080/fiapeats
   autenticacao:
-    url: ${FEIGN_AUTENTICACAO_URL}
+    url: https://api.mercadopago.com/oauth/token
   mercadoPago:
-    urk: ${FEIGN_MERCADOPAGO_URL}
+    urk: https://api.mercadopago.com

@@ -2,9 +2,6 @@ package br.com.fiap.fiapeats.bdd.steps;
 
 import br.com.fiap.fiapeats.external.api.contracts.request.CriarPagamentoRequest;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
