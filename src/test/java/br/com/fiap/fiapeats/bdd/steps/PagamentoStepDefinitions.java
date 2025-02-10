@@ -2,9 +2,6 @@ package br.com.fiap.fiapeats.bdd.steps;
 
 import br.com.fiap.fiapeats.external.api.contracts.request.CriarPagamentoRequest;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
@@ -13,7 +10,6 @@ import io.restassured.response.Response;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Map;
