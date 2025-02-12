@@ -8,6 +8,6 @@ public interface PedidoGateway {
 
     Pedido consultar(String idPedido);
 
-    int atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento);
+    void atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento);
 
 }

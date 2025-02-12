@@ -1,6 +1,7 @@
 package br.com.fiap.fiapeats.external.mapper;
 
 import br.com.fiap.fiapeats.domain.entities.Pedido;
+import br.com.fiap.fiapeats.external.integration.feign.response.PagamentoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.PedidoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.ProdutoResponse;
 import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapperImpl;
@@ -22,16 +23,18 @@ public class PedidoIntegrationMapperTest {
 
         var idPedido = UUID.randomUUID();
         ProdutoResponse produtoResponse = new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida");
-        PedidoResponse pedidoResponse = new PedidoResponse(idPedido, List.of(produtoResponse), "12345678912", new BigDecimal("10"), LocalDateTime.now(), 15);
+        PedidoResponse pedidoResponse = new PedidoResponse(idPedido, List.of(produtoResponse), "12345678912", new BigDecimal("10"), "Pendente", new PagamentoResponse("Pendente", 1L, null), LocalDateTime.now(), 15);
 
         Pedido response = pedidoIntegrationMapper.toPedido(pedidoResponse);
 
         assertEquals(idPedido, response.getId());
-        assertEquals("12345678912", response.getCliCpf());
+        assertEquals("12345678912", response.getCpf());
         assertEquals(15, response.getTempoEspera());
         assertEquals(BigDecimal.TEN, response.getValor());
         assertEquals(1, response.getProdutos().size());
-        assertNotNull(response.getDataHoraCriacao());
+        assertEquals("Pendente", response.getStatusOrdem());
+        assertNotNull(response.getPagamento());
+        assertNotNull(response.getDataCriacao());
     }
 
     @Test
@@ -45,7 +48,7 @@ public class PedidoIntegrationMapperTest {
     void toPedidoRetornarNullQuandoProdutoResponseForNull() {
 
         var idPedido = UUID.randomUUID();
-        PedidoResponse pedidoResponse = new PedidoResponse(idPedido, null, "12345678912", new BigDecimal("10"), LocalDateTime.now(), 15);
+        PedidoResponse pedidoResponse = new PedidoResponse(idPedido, null, "12345678912", new BigDecimal("10"), "Pendente", new PagamentoResponse("Pendente", 1L, null), LocalDateTime.now(), 15);
 
         Pedido response = pedidoIntegrationMapper.toPedido(pedidoResponse);
 

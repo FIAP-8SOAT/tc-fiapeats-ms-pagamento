@@ -30,12 +30,8 @@ public class AtualizarPagamentoUseCaseImpl implements AtualizarPagamentoUseCase 
                 throw new NotFoundException("Id pedido vinculado ao id pedido externo não encontrado");
             }
 
-            var response = pedidoGateway.atualizarStatusPagamento(
+            pedidoGateway.atualizarStatusPagamento(
                     pedido.getId().toString(), obterStatusPagamento(pagamentoPedido));
-
-            if (response != 200){
-                throw new RuntimeException("Erro ao atualizar o status do pagamento. HTTP: " + response);
-            }
         }
     }
 

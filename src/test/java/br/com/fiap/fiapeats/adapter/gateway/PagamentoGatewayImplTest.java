@@ -36,7 +36,7 @@ public class PagamentoGatewayImplTest {
         pagamentoPedidoExterno = new PagamentoPedidoExterno(
                 "Pendente", "123", List.of(new PagamentoExterno("1", "Pendente")));
         pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, "Categoria")),
-                "12345678901", BigDecimal.TEN, LocalDateTime.now(), 10);
+                "12345678901", BigDecimal.TEN, "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 10);
     }
 
     @Test
