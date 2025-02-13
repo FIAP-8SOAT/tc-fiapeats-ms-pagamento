@@ -1,0 +1,70 @@
+name: SonarQube
+on:
+  pull_request:
+    branches:
+      - main  # Executa em todos os PRs para a branch main
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fiapeats-ms-pagamento_pagamento
+
+      - name: Check SonarQube Quality Gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "https://sonarcloud.io"
+        run: |
+          SONAR_PROJECT_KEY="fiapeats-ms-pagamento_pagamento"
+          PULL_REQUEST_NUMBER=${{ github.event.pull_request.number }}
+          
+          if [[ -n "$PULL_REQUEST_NUMBER" ]]; then
+            # Se estiver rodando em um PR, adiciona o parâmetro pullRequest
+            QUALITY_GATE_URL="$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY&pullRequest=$PULL_REQUEST_NUMBER"
+          else
+            # Se for uma branch normal, usa a URL padrão sem pullRequest
+            QUALITY_GATE_URL="$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY"
+          fi
+          
+          echo "Consultando Quality Gate em: $QUALITY_GATE_URL"
+          
+          # Faz a requisição para verificar o status do Quality Gate
+          STATUS=$(curl -s -u $SONAR_TOKEN: "$QUALITY_GATE_URL" | jq -r .projectStatus.status)
+          
+          echo "Quality Gate Status: $STATUS"
+          
+          # Falha se o Quality Gate não passou
+          if [[ "$STATUS" != "OK" ]]; then
+            echo "❌ Quality Gate Failed!"
+            exit 1
+          fi
+          
+          echo "✅ Quality Gate Passed!"
