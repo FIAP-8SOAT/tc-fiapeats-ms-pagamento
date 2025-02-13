@@ -15,11 +15,3 @@ management:
     web:
       exposure:
         include: health
-
-feign:
-  pedido:
-    url: http://localhost:8080/fiapeats
-  autenticacao:
-    url: https://api.mercadopago.com/oauth/token
-  mercadoPago:
-    urk: https://api.mercadopago.com

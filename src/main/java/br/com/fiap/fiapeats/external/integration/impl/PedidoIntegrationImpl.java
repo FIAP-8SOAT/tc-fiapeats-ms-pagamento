@@ -34,15 +34,12 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
   }
 
   @Override
-  public int atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento) {
+  public void atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento) {
     log.info(
             "correlationId={"
                     + ThreadContext.get(Constants.CORRELATION_ID)
                     + "} "
                     + "[PedidoIntegrationImpl-atualizarStatusPagamento] ");
-
-    var teste = pedidoFeign.atualizarStatusPagamento(idPedido, new AtualizarPagamentoPedidoRequest(statusPagamento.getCodigo(), statusPagamento.getNome()));
-
-    return teste.getStatusCode().value();
+    pedidoFeign.atualizarStatusPagamento(idPedido, new AtualizarPagamentoPedidoRequest(statusPagamento.getCodigo(), statusPagamento.getNome()));
   }
 }

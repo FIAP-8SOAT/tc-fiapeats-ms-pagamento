@@ -1,9 +1,6 @@
 package br.com.fiap.fiapeats.usecases;
 
-import br.com.fiap.fiapeats.domain.entities.PagamentoExterno;
-import br.com.fiap.fiapeats.domain.entities.PagamentoPedidoExterno;
-import br.com.fiap.fiapeats.domain.entities.Pedido;
-import br.com.fiap.fiapeats.domain.entities.Produto;
+import br.com.fiap.fiapeats.domain.entities.*;
 import br.com.fiap.fiapeats.domain.enums.StatusPagamento;
 import br.com.fiap.fiapeats.usecases.exceptions.NotFoundException;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
@@ -40,7 +37,7 @@ public class AtualizarPagamentoUseCaseImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        pedido = new Pedido(UUID.randomUUID(), List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), LocalDateTime.now(), 15);
+        pedido = new Pedido(UUID.randomUUID(), List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
         pagamentoPedidoExterno = new PagamentoPedidoExterno(STATUS_PAGAMENTO_PEDIDO, UUID.randomUUID().toString(), List.of(new PagamentoExterno("123", STATUS_PAGAMENTO)));
     }
 
@@ -50,7 +47,6 @@ public class AtualizarPagamentoUseCaseImplTest {
 
         when(pagamentoGateway.consultar(idPedidoExterno)).thenReturn(pagamentoPedidoExterno);
         when(pedidoGateway.consultar(anyString())).thenReturn(pedido);
-        when(pedidoGateway.atualizarStatusPagamento(pedido.getId().toString(), StatusPagamento.APROVADO)).thenReturn(200);
 
         assertDoesNotThrow(() -> atualizarPagamentoUseCase.atualizar(idPedidoExterno, TOPICO_PEDIDO));
 
@@ -66,30 +62,12 @@ public class AtualizarPagamentoUseCaseImplTest {
 
         when(pagamentoGateway.consultar(idPedidoExterno)).thenReturn(pagamentoPedido);
         when(pedidoGateway.consultar(anyString())).thenReturn(pedido);
-        when(pedidoGateway.atualizarStatusPagamento(pedido.getId().toString(), StatusPagamento.PENDENTE)).thenReturn(200);
 
         assertDoesNotThrow(() -> atualizarPagamentoUseCase.atualizar(idPedidoExterno, TOPICO_PEDIDO));
 
         verify(pagamentoGateway, times(1)).consultar(anyString());
         verify(pedidoGateway, times(1)).consultar(anyString());
         verify(pedidoGateway, times(1)).atualizarStatusPagamento(anyString(), any());
-    }
-
-    @Test
-    void deveRetornarNotFoundExceptionQuandoPedidoNaoEncontrado() {
-        String idPedidoExterno = "123456";
-
-        when(pagamentoGateway.consultar(idPedidoExterno)).thenReturn(pagamentoPedidoExterno);
-        when(pedidoGateway.consultar(anyString())).thenReturn(pedido);
-        when(pedidoGateway.atualizarStatusPagamento(pedido.getId().toString(), StatusPagamento.APROVADO)).thenReturn(500);
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->
-                atualizarPagamentoUseCase.atualizar(idPedidoExterno, TOPICO_PEDIDO));
-
-        verify(pagamentoGateway, times(1)).consultar(anyString());
-        verify(pedidoGateway, times(1)).consultar(anyString());
-        verify(pedidoGateway, times(1)).atualizarStatusPagamento(anyString(), any());
-        assertEquals("Erro ao atualizar o status do pagamento. HTTP: 500", exception.getMessage());
     }
 
     @Test

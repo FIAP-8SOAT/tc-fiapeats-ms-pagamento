@@ -8,6 +8,6 @@ import org.springframework.http.HttpStatusCode;
 
 public interface PedidoIntegration {
   Pedido consultarPedido(String idPedido);
-  int atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento);
+  void atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento);
 
 }

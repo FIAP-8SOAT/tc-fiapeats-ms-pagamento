@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>17</java.version>
 		<spotless.version>2.22.8</spotless.version>
+		<sonar.organization>fiapeats-ms-pagamento</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>

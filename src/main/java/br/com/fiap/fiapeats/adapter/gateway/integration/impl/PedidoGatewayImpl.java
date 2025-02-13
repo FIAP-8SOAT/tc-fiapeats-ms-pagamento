@@ -21,7 +21,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
   }
 
   @Override
-  public int atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento) {
-    return pedidoIntegration.atualizarStatusPagamento(idPedido, statusPagamento);
+  public void atualizarStatusPagamento(String idPedido, StatusPagamento statusPagamento) {
+    pedidoIntegration.atualizarStatusPagamento(idPedido, statusPagamento);
   }
 }

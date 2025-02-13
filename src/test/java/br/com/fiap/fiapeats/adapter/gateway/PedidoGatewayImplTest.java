@@ -34,7 +34,7 @@ public class PedidoGatewayImplTest {
         MockitoAnnotations.openMocks(this);
         idPedido = UUID.randomUUID();
         pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, "Categoria")),
-                "12345678901", BigDecimal.TEN, LocalDateTime.now(), 10);
+                "12345678901", BigDecimal.TEN, "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 10);
     }
 
     @Test
@@ -45,22 +45,20 @@ public class PedidoGatewayImplTest {
 
         assertNotNull(response);
         assertEquals(response.getId(), idPedido);
-        assertEquals(response.getCliCpf(), "12345678901");
+        assertEquals(response.getCpf(), "12345678901");
         assertEquals(response.getValor(), BigDecimal.TEN);
-        assertNotNull(response.getDataHoraCriacao());
+        assertNotNull(response.getDataCriacao());
         assertEquals(response.getTempoEspera(), 10);
+        assertEquals(response.getStatusOrdem(), "Pendente");
+        assertEquals(response.getProdutos().size(), 1);
+        assertNotNull(response.getPagamento());
         verify(pedidoIntegration, times(1)).consultarPedido(any());
     }
 
     @Test
     void deveAtualizarStatusPagamentoComSucesso() {
-        int codigoEsperado = 200;
+        pedidoGatewayImpl.atualizarStatusPagamento(idPedido.toString(), StatusPagamento.APROVADO);
 
-        when(pedidoIntegration.atualizarStatusPagamento(idPedido.toString(), StatusPagamento.APROVADO)).thenReturn(codigoEsperado);
-
-        int response = pedidoGatewayImpl.atualizarStatusPagamento(idPedido.toString(), StatusPagamento.APROVADO);
-
-        assertEquals(codigoEsperado, response);
         verify(pedidoIntegration, times(1)).atualizarStatusPagamento(any(), any());
     }
 }

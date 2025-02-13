@@ -1,5 +1,6 @@
 package br.com.fiap.fiapeats.external.integration;
 
+import br.com.fiap.fiapeats.domain.entities.PagamentoPedido;
 import br.com.fiap.fiapeats.domain.entities.Pedido;
 import br.com.fiap.fiapeats.domain.entities.Produto;
 import br.com.fiap.fiapeats.domain.enums.StatusPagamento;
@@ -39,8 +40,8 @@ public class PedidoIntegrationImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         var idPedido = UUID.randomUUID();
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), LocalDateTime.now(), 15);
-        pedidoResponse = new PedidoResponse(idPedido, List.of(new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), LocalDateTime.now(), 15);
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
+        pedidoResponse = new PedidoResponse(idPedido, List.of(new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoResponse("Pendente", 1L, null), LocalDateTime.now(), 15);
     }
 
     @Test
@@ -72,11 +73,8 @@ public class PedidoIntegrationImplTest {
     void deveAtualizarStatusPagamentoComSucesso(){
         String idPedido = UUID.randomUUID().toString();
 
-        when(pedidoFeign.atualizarStatusPagamento(anyString(), any())).thenReturn(ResponseEntity.ok(pedidoResponse));
+        pedidoIntegration.atualizarStatusPagamento(idPedido, StatusPagamento.APROVADO);
 
-        int response = pedidoIntegration.atualizarStatusPagamento(idPedido, StatusPagamento.APROVADO);
-
-        assertEquals(200, response);
         verify(pedidoFeign, times(1)).atualizarStatusPagamento(any(), any());
     }
 }

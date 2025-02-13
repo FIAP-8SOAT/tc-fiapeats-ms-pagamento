@@ -17,9 +17,9 @@ import java.util.Optional;
 @FeignClient(value = "api-consultarPedido", url = "http://localhost:8080/fiapeats", configuration = FeignConfig.class)
 public interface PedidoFeign {
 
-    @GetMapping(value = "/pedido/{id}")
-    Optional<PedidoResponse> consultar(@PathVariable String id);
+    @GetMapping(value = "/order/{orderId}")
+    Optional<PedidoResponse> consultar(@PathVariable("orderId") String id);
 
-    @PatchMapping(value = "/pedido/{idOrdem}", consumes = "application/json")
-    ResponseEntity<PedidoResponse> atualizarStatusPagamento(@PathVariable("idOrdem") String id, @RequestBody AtualizarPagamentoPedidoRequest atualizarPagamentoPedidoRequest);
+    @PatchMapping(value = "/payment/{idOrdem}", consumes = "application/json")
+    void atualizarStatusPagamento(@PathVariable("idOrdem") String id, @RequestBody AtualizarPagamentoPedidoRequest atualizarPagamentoPedidoRequest);
 }
