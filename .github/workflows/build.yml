@@ -36,14 +36,14 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fiapeats-ms_pagamento
+        run: mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fiapeats-msp_pg
 
       - name: Check SonarQube Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
         run: |
-          SONAR_PROJECT_KEY="fiapeats-ms_pagamento"
+          SONAR_PROJECT_KEY="fiapeats-msp_pg"
           PULL_REQUEST_NUMBER=${{ github.event.pull_request.number }}
           
           if [[ -n "$PULL_REQUEST_NUMBER" ]]; then
