@@ -40,7 +40,7 @@ public class PagamentoSpringController {
       })
   public ResponseEntity<CriarPagamentoResponse> criarCodigoPagamento(
           @RequestHeader(value = "correlationId", required = false) String correlationId,
-      @RequestBody @Valid CriarPagamentoRequest criarPagamentoRequest) {
+      @RequestBody CriarPagamentoRequest criarPagamentoRequest) {
 
     if (correlationId == null || correlationId.isEmpty()) {
       correlationId = UUID.randomUUID().toString();

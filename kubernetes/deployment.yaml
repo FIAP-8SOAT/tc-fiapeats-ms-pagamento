@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fiapeats-api-deployment
+  name: fiapeats-ms-pagamento-deployment
   labels:
-    app: fiapeats-api
+    app: fiapeats-ms-pagamento
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fiapeats-api
+      app: fiapeats-ms-pagamento
   template:
     metadata:
       labels:
-        app: fiapeats-api
+        app: fiapeats-ms-pagamento
     spec:
       containers:
-        - name: fiapeats-api-container
-          image: 980921733871.dkr.ecr.us-east-1.amazonaws.com/fiapeats-api:latest
+        - name: fiapeats-ms-pagamentocontainer
+          image: 980921733871.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest
           ports:
             - containerPort: 8081
           resources:
