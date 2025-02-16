@@ -93,7 +93,7 @@ jobs:
           echo "JDK configurado em: ${{ needs.setup-jdk.outputs.jdk-path }}"
 
       - name: Executar testes de sistema (Cucumber)
-        run: mvn clean test -Dtest=RunCucumberTest
+        run: mvn clean test -Dtest=CucumberRunnerTest
 
   sonarqube:
     runs-on: ubuntu-latest
