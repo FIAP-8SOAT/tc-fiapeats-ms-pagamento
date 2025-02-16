@@ -1,21 +1,21 @@
-# FiapEats - Microserviço de Pagamento
+## FiapEats - Microserviço de Pagamento
 
 Este repositório contém o microserviço de pagamento do FiapEats, uma aplicação que gerencia o fluxo de pagamento de um pedido. Este serviço foi refatorado a partir de um monolito para operar de forma independente, seguindo boas práticas de arquitetura de microserviços.
 
-## Estrutura Projeto
+### Estrutura Projeto
 
-### Diretórios usados
+#### Diretórios usados
 - /docs -> arquivos pertinentes a documentações
 - /variables -> variaveis de ambiente usadas na app localmente, via kubernetes e via container
 - /src -> código fonte da app
 - /kubernetes -> configs de deployment,service,hpa e ingress da aplicação
 
-### Plugins
+#### Plugins
 - Jacoco -> cobertura de testes unitários e análise
 - Spotless -> identação de código padronizada
 
 ---
-## Ambiente Docker
+### Ambiente Docker
 ![Ambiente Docker](docs/docker_logo.png)
 
 Foi criado o arquivo na raiz docker-compose.yaml que contempla a configuração necessários para compor o ambiente completo de nosso sistema.
@@ -25,7 +25,7 @@ Para executar o ambiente utilize o seguinte comando:
 docker compose --profile app up -d
 ```
 
-### Configurando variáveis de ambiente
+#### Configurando variáveis de ambiente
 
 O projeto tem uma pasta chamada 'variables' e contém dois arquivos, eles representam as variaveis que a app usa em tempo de desenvolvimento 'local.env' e em tempo de execução no container 'ambient.env'.
 
@@ -48,15 +48,14 @@ Após isso, na aba de configurações de execução da app só habiliar o uso do
 
 
 ---
-# Documentação APIs
+## Documentação APIs
 
 O Swagger da aplicação pode ser acessado através da URL: `http://localhost:8081/fiapeats/swagger-ui/index.html`.
 
 Abaixo estão os principais endpoints para gerenciamento de pagamento, com exemplos de requisições e respostas.
 
 
----
-## 1. Criar um QRCode para pagamento
+### 1. Criar um QRCode para pagamento
 **Descrição**: Cria um QRCode para pagamento associada a um pedido.
 
 **Endpoint**: `POST /pagamento`
@@ -78,7 +77,7 @@ Abaixo estão os principais endpoints para gerenciamento de pagamento, com exemp
 }
 ```
 
-## 2. Rota de webhook para o MERCADO PAGO enviar atualização de pagamento do pedido
+### 2. Rota de webhook para o MERCADO PAGO enviar atualização de pagamento do pedido
 **Descrição**: Recebe a requisição do mercado pago referente ao status de pagamento do pedido e envia atualização de pagamento via integração para o serviço ms-pedido
 
 **Endpoint**: `POST /pagamento/notificacao`
@@ -97,3 +96,4 @@ Abaixo estão os principais endpoints para gerenciamento de pagamento, com exemp
 
 ---
 ### Evidência Coverage Sonar
+![Coverage_Sonar](docs/coverage-sonar.png)
