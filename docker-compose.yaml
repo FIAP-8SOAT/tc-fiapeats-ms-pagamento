@@ -1,0 +1,21 @@
+name: fiapeats-ms-pagamento
+services:
+  fiapeats-ms-pagamento:
+    container_name: api-ms-pagamento
+    build:
+      context: .
+      args:
+        JAR_VERSION: "0.0.12"
+      dockerfile: Dockerfile
+    profiles: [ app ]
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    env_file: "variables/ambient.env"
+    networks:
+      - fiapeats-all-ms-network
+
+networks:
+  fiapeats-all-ms-network:
+    name: fiapeats-all-ms-network
+    driver: bridge
