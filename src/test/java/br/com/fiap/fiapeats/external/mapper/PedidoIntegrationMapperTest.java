@@ -1,6 +1,7 @@
 package br.com.fiap.fiapeats.external.mapper;
 
 import br.com.fiap.fiapeats.domain.entities.Pedido;
+import br.com.fiap.fiapeats.external.integration.feign.response.CategoriaResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.PagamentoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.PedidoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.ProdutoResponse;
@@ -22,7 +23,7 @@ public class PedidoIntegrationMapperTest {
     void toPedidoComSucesso() {
 
         var idPedido = UUID.randomUUID();
-        ProdutoResponse produtoResponse = new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida");
+        ProdutoResponse produtoResponse = new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new CategoriaResponse(1L, "Bebida"));
         PedidoResponse pedidoResponse = new PedidoResponse(idPedido, List.of(produtoResponse), "12345678912", new BigDecimal("10"), "Pendente", new PagamentoResponse("Pendente", 1L, null), LocalDateTime.now(), 15);
 
         Pedido response = pedidoIntegrationMapper.toPedido(pedidoResponse);

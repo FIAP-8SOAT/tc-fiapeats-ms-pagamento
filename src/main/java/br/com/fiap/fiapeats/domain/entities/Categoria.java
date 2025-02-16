@@ -1,10 +1,11 @@
-package br.com.fiap.fiapeats.external.integration.feign.response;
+package br.com.fiap.fiapeats.domain.entities;
 
-public class CategoriaResponse {
+public class Categoria {
+
     private Long id;
     private String descricao;
 
-    public CategoriaResponse(Long id, String descricao) {
+    public Categoria(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }

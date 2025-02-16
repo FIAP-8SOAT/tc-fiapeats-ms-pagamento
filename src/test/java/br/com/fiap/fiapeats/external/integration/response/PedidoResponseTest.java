@@ -1,5 +1,6 @@
 package br.com.fiap.fiapeats.external.integration.response;
 
+import br.com.fiap.fiapeats.external.integration.feign.response.CategoriaResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.PagamentoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.PedidoResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.ProdutoResponse;
@@ -19,7 +20,7 @@ public class PedidoResponseTest {
     void deveCriarPagamentoPedidoResponseComSucesso() {
 
         var idPedido = UUID.randomUUID();
-        ProdutoResponse produtoResponse = new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida");
+        ProdutoResponse produtoResponse = new ProdutoResponse(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new CategoriaResponse(1L, "Bebida"));
         PedidoResponse response = new PedidoResponse(idPedido, List.of(produtoResponse), "12345678912", new BigDecimal("10"), "Pendente", new PagamentoResponse("Pendente", 1L, null), LocalDateTime.now(), 15);
 
         assertNotNull(response);

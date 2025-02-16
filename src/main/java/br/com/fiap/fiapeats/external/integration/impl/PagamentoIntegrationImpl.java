@@ -53,7 +53,7 @@ public class PagamentoIntegrationImpl implements PagamentoIntegration {
                 p ->
                     new ProdutosPedidoRequest(
                         p.getId().toString(),
-                        p.getCategoria(),
+                        p.getCategoria().getDescricao(),
                         p.getNome(),
                         p.getDescricao(),
                         p.getValor(),

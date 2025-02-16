@@ -38,7 +38,7 @@ public class CriarPagamentoUseCaseImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         var idPedido = UUID.randomUUID();
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new Categoria(1L, "Bebida"))), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
         pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
         criarPagamentoDTO = new CriarPagamentoDTO(idPedido, "http:pedido-notificacao");
     }

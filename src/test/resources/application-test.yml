@@ -21,3 +21,6 @@ feign:
     pedido: https://api.mercadopago.com
   fiapeats:
     mspedido: http://localhost:8080/fiapeats
+
+url:
+  notificacao: https://3503-45-173-179-9.ngrok-free.app/fiapeats/pagamento/notificacao

@@ -7,6 +7,7 @@ import br.com.fiap.fiapeats.domain.utils.Constants;
 import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
 import br.com.fiap.fiapeats.external.integration.feign.request.AtualizarPagamentoPedidoRequest;
 import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 
@@ -21,7 +22,6 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
     this.mapper = pedidoIntegrationMapper;
   }
 
-
   @Override
   public Pedido consultarPedido(String idPedido) {
     log.info(
@@ -30,7 +30,12 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
                     + "} "
                     + "[PedidoIntegrationImpl-consultarPedido] ");
 
-    return mapper.toPedido(pedidoFeign.consultar(idPedido).orElse(null));
+    try {
+      return mapper.toPedido(pedidoFeign.consultar(idPedido).orElse(null));
+    } catch (FeignException e) {
+      log.info("Erro a consultar a API de pedido. HTTP: " + e.status());
+    }
+    return null;
   }
 
   @Override

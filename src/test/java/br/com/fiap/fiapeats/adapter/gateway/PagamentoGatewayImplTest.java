@@ -35,7 +35,7 @@ public class PagamentoGatewayImplTest {
         pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
         pagamentoPedidoExterno = new PagamentoPedidoExterno(
                 "Pendente", "123", List.of(new PagamentoExterno("1", "Pendente")));
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, "Categoria")),
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, new Categoria(1L, "Bebida"))),
                 "12345678901", BigDecimal.TEN, "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 10);
     }
 
