@@ -36,35 +36,43 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fiapeats-msp_pg
+        run: mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fiapeats-msp_pagamento
 
       - name: Check SonarQube Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
         run: |
-          SONAR_PROJECT_KEY="fiapeats-msp_pg"
+          SONAR_PROJECT_KEY="fiapeats-msp_pagamento"
           PULL_REQUEST_NUMBER=${{ github.event.pull_request.number }}
-          
+
           if [[ -n "$PULL_REQUEST_NUMBER" ]]; then
-            # Se estiver rodando em um PR, adiciona o parâmetro pullRequest
             QUALITY_GATE_URL="$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY&pullRequest=$PULL_REQUEST_NUMBER"
           else
-            # Se for uma branch normal, usa a URL padrão sem pullRequest
             QUALITY_GATE_URL="$SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY"
           fi
-          
+
           echo "Consultando Quality Gate em: $QUALITY_GATE_URL"
-          
-          # Faz a requisição para verificar o status do Quality Gate
-          STATUS=$(curl -s -u $SONAR_TOKEN: "$QUALITY_GATE_URL" | jq -r .projectStatus.status)
-          
+
+          MAX_RETRIES=10
+          RETRY_DELAY=10  # Segundos
+
+          for ((i=1; i<=MAX_RETRIES; i++)); do
+            STATUS=$(curl -s -u $SONAR_TOKEN: "$QUALITY_GATE_URL" | jq -r .projectStatus.status)
+
+            if [[ "$STATUS" != "null" ]]; then
+              break
+            fi
+
+            echo "SonarQube ainda não está pronto. Tentativa $i de $MAX_RETRIES..."
+            sleep $RETRY_DELAY
+          done
+
           echo "Quality Gate Status: $STATUS"
-          
-          # Falha se o Quality Gate não passou
+
           if [[ "$STATUS" != "OK" ]]; then
             echo "❌ Quality Gate Failed!"
             exit 1
           fi
-          
+
           echo "✅ Quality Gate Passed!"
