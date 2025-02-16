@@ -9,9 +9,9 @@ public class ProdutoResponse {
     private String nome;
     private String descricao;
     private BigDecimal valor;
-    private String categoria;
+    private CategoriaResponse categoria;
 
-    public ProdutoResponse(UUID id, String nome, String descricao, BigDecimal valor, String categoria) {
+    public ProdutoResponse(UUID id, String nome, String descricao, BigDecimal valor, CategoriaResponse categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -35,7 +35,7 @@ public class ProdutoResponse {
         return valor;
     }
 
-    public String getCategoria() {
+    public CategoriaResponse getCategoria() {
         return categoria;
     }
 }

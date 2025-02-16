@@ -1,5 +1,6 @@
 package br.com.fiap.fiapeats.external.integration.response;
 
+import br.com.fiap.fiapeats.external.integration.feign.response.CategoriaResponse;
 import br.com.fiap.fiapeats.external.integration.feign.response.ProdutoResponse;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +16,13 @@ public class ProdutoResponseTest {
     void deveCriarProdutoResponseComSucesso() {
 
         var idProduto = UUID.randomUUID();
-        ProdutoResponse response = new ProdutoResponse(idProduto, "Coca", "Coca Zero", new BigDecimal("10"), "Bebida");
+        ProdutoResponse response = new ProdutoResponse(idProduto, "Coca", "Coca Zero", new BigDecimal("10"), new CategoriaResponse(1L, "Bebida"));
 
         assertNotNull(response);
         assertEquals(idProduto, response.getId());
         assertEquals("Coca", response.getNome());
         assertEquals("Coca Zero", response.getDescricao());
         assertEquals(BigDecimal.TEN, response.getValor());
-        assertEquals("Bebida", response.getCategoria());
+        assertEquals("Bebida", response.getCategoria().getDescricao());
     }
 }

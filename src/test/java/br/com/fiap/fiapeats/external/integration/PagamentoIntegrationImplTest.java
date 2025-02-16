@@ -50,7 +50,7 @@ public class PagamentoIntegrationImplTest {
         MockitoAnnotations.openMocks(this);
         var idPedido = UUID.randomUUID();
         criarPagamentoPedidoResponse = new CriarPagamentoPedidoResponse(idPedido.toString(), "codigoQR");
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new Categoria(1L, "Bebida"))), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
         pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
         pagamentoPedidoExterno = new PagamentoPedidoExterno("approved", idPedido.toString(), List.of());
         consultarPagamentoPedidoResponse = new ConsultarPagamentoPedidoResponse("approved", idPedido.toString(), List.of());
