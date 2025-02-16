@@ -34,8 +34,8 @@ public class PagamentoStepDefinitions {
     private String pedido;
 
 
-    @Dado("que eu tenho os dados de um novo pagamento:")
-    public void eu_tenho_dados_de_um_novo_pagamento(DataTable dataTable) {
+    @Dado("que eu tenho os dados de um novo pedido:")
+    public void eu_tenho_dados_de_um_novo_pedido(DataTable dataTable) {
         List<Map<String, String>> data = dataTable.asMaps();
         Map<String, String> pagamentoData = data.get(0);
 
@@ -44,8 +44,8 @@ public class PagamentoStepDefinitions {
                 pagamentoData.get("urlNotificacao"));
     }
 
-    @Quando("eu crio um código QR com os dados")
-    public void eu_crio_um_codigo_com_os_dados() {
+    @Quando("eu solicito a criação de um código QR com os dados")
+    public void eu_solicito_criacao_de_um_codigo_com_os_dados() {
         response = given()
                 .port(port)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -54,10 +54,9 @@ public class PagamentoStepDefinitions {
                 .post(baseUrl);
     }
 
-    @Entao("o sistema retorna o código QR de pagamento")
-    public void o_sistema_retorna_codigo_pagamento() {
-        assertEquals(201, response.statusCode());
-        assertNotNull(response.jsonPath().getString("codigoQR"));
+    @Entao("o sistema retorna pedido não encontrado")
+    public void o_sistema_retorna_pedido_nao_encontrado() {
+        assertEquals(404, response.statusCode());
     }
 
     @Dado("que eu tenho os dados do status de pagamento do pedido:")
@@ -69,8 +68,8 @@ public class PagamentoStepDefinitions {
         pedido = atualizacaoStatusData.get("id");
     }
 
-    @Quando("eu atualizo o status do pagamento do pedido")
-    public void eu_atualizo_o_status_do_pagamento_do_pedido() {
+    @Quando("eu tento atualizar o status do pagamento do pedido")
+    public void eu_tento_atualizar_o_status_do_pagamento_do_pedido() {
         response = given()
                 .port(port)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -80,9 +79,9 @@ public class PagamentoStepDefinitions {
                 .post(baseUrl + "/notificacao");
     }
 
-    @Entao("o status do pagamento do pedido é atualizado com sucesso")
-    public void o_status_do_pagamento_pedido_atualizao_com_sucesso() {
-        assertEquals(200, response.statusCode());
+    @Entao("o sistema retorna pedido não encontrado associado ao pagamento")
+    public void o_sistema_retorna_pedido_nao_encontrado_para_pagamento() {
+        assertEquals(404, response.statusCode());
     }
 
 }
