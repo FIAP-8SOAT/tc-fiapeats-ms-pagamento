@@ -1,15 +1,9 @@
 name: Deploy Automatizado para Kubernetes
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-    types:
-      - closed
-permissions:
-  contents: write
+
 jobs:
   setup-jdk:
     runs-on: ubuntu-latest
