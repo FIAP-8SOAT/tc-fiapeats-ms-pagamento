@@ -6,6 +6,7 @@ import br.com.fiap.fiapeats.usecases.exceptions.NotFoundException;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.CriarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pedido.PedidoGateway;
+import org.springframework.beans.factory.annotation.Value;
 
 public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
 

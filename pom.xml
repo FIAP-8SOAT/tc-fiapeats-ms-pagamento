@@ -11,7 +11,7 @@
 	<groupId>br.com.fiap</groupId>
 	<artifactId>fiapeats</artifactId>
 	<version>0.0.12</version>
-	<name>fiapeats</name>
+	<name>tc-fiapeats-ms-pagamento</name>
 	<description>MS do contexto de Pagamento do projeto Fiapeats</description>
 	<properties>
 		<java.version>17</java.version>
@@ -260,9 +260,6 @@
 					</execution>
 				</executions>
 				<configuration>
-					<includes>
-						<include>**/*IT.java</include> <!-- Apenas classes terminadas com IT -->
-					</includes>
 					<excludes>
 						<exclude>**/*Test.java</exclude> <!-- Evita rodar o Cucumber -->
 					</excludes>
@@ -286,7 +283,6 @@
 							</includes>
 							<excludes>
 								<exclude>**/*Test.java</exclude> <!-- Exclui outros testes unitários -->
-								<exclude>**/*IT.java</exclude> <!-- Exclui testes de integração -->
 							</excludes>
 						</configuration>
 					</plugin>

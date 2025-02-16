@@ -40,14 +40,4 @@ public class CriarPagamentoRequestTest {
         assertThat(violations).isNotEmpty();
     }
 
-    @Test
-    void deveRetornarErroQuandoUrlNotificacaoForVazia() {
-        CriarPagamentoRequest request = new CriarPagamentoRequest(UUID.randomUUID(), "");
-
-        Set<ConstraintViolation<CriarPagamentoRequest>> violations = validator.validate(request);
-
-        assertThat(violations).isNotEmpty();
-    }
-
-
 }

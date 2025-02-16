@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fiapeats-api-service
+  name: fiapeats-ms-pagamento-service
 spec:
   type: NodePort
   ports:
@@ -10,4 +10,4 @@ spec:
       targetPort: 8081
       nodePort: 31000
   selector:
-    app: fiapeats-api
+    app: fiapeats-ms-pagamento
