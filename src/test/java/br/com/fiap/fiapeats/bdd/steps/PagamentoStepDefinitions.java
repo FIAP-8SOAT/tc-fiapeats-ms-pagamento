@@ -28,7 +28,7 @@ public class PagamentoStepDefinitions {
     @LocalServerPort
     private int port;
     private Response response;
-    private String baseUrl = "/fiapeats/pagamento";
+    private String baseUrl = "/mspagamento/pagamento";
     private CriarPagamentoRequest criarPagamentoRequest;
     private String topico;
     private String pedido;

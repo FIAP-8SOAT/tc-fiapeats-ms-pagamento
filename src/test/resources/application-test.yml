@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /fiapeats
+    context-path: /mspagamento
 
 spring:
   application:
@@ -20,7 +20,7 @@ feign:
     autenticacao: https://api.mercadopago.com/oauth/token
     pedido: https://api.mercadopago.com
   fiapeats:
-    mspedido: http://localhost:8080/fiapeats
+    mspedido: http://localhost:8080/mspedido
 
 url:
   notificacao: https://3503-45-173-179-9.ngrok-free.app/fiapeats/pagamento/notificacao
