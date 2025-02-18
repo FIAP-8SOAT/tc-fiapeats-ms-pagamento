@@ -333,5 +333,5 @@ jobs:
           kubectl apply -f kubernetes/userAdmin.yaml
       - name: Health Check após Deploy
         run: |
-          kubectl rollout status deployment/fiapeats-ms-pagamento-deployment -n default --timeout=5m
-          kubectl get pods -n default
+          kubectl rollout status deployment/fiapeats-ms-pagamento-deployment -n fiapeats-hk  --timeout=5m
+          kubectl get pods -n fiapeats-hk 
