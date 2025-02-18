@@ -308,7 +308,7 @@ jobs:
 
       - name: Baixar a imagem do ECR
         run: |
-          
+          AWS_ACCOUNT_ID=390403893106
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Versão detectada: $VERSION"
           IMAGE_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento"
