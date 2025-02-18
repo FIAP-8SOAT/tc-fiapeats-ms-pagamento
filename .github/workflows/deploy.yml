@@ -187,7 +187,7 @@ jobs:
           aws ecr create-repository --repository-name fiapeats-ms-pagamento --region us-east-1
 
   publish-image:
-    needs: verify-aws
+    # needs: verify-aws
     runs-on: ubuntu-latest
     steps:
       - name: Baixar código do repositório
