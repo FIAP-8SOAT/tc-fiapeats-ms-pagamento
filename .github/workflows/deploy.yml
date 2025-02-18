@@ -256,7 +256,6 @@ jobs:
           docker push $IMAGE_REPO:latest
           fi
 
-
       - name: Atualizar imagem do Deployment no Kubernetes
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
