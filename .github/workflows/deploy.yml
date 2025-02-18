@@ -187,7 +187,7 @@ jobs:
           aws ecr create-repository --repository-name fiapeats-ms-pagamento --region us-east-1
 
   publish-image:
-    needs: verify-aws
+    # needs: verify-aws
     runs-on: ubuntu-latest
     steps:
       - name: Baixar código do repositório
@@ -277,7 +277,6 @@ jobs:
   deploy-production:
     needs: publish-image
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - name: Baixar código do repositório
         uses: actions/checkout@v3
@@ -309,14 +308,16 @@ jobs:
 
       - name: Baixar a imagem do ECR
         run: |
-          IMAGE_REPO="390403893106.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
-          docker pull $IMAGE_REPO
-
+          
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Versão detectada: $VERSION"
+          IMAGE_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento"
+          echo "Imagem: $IMAGE_REPO:$VERSION"
+          docker pull $IMAGE_REPO:$VERSION
 
       - name: Substituir a versão da imagem no deployment.yaml
         run: |
-          IMAGE_REPO="390403893106.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
-          sed -i "s|image: .*|image: $IMAGE_REPO|" kubernetes/deployment.yaml
+          sed -i "s|image: .*|image: $IMAGE_REPO:$VERSION|" kubernetes/deployment.yaml
 
 
       - name: Deploy no ambiente de produção
@@ -325,5 +326,5 @@ jobs:
 
       - name: Health Check após Deploy
         run: |
-          kubectl rollout status deployment/fiapeats-ms-pagamento-deployment -n fiapeats-hk  --timeout=5m
+          kubectl rollout status deployment/ms-pagamento-deployment -n fiapeats-hk  --timeout=5m
           kubectl get pods -n fiapeats-hk 
