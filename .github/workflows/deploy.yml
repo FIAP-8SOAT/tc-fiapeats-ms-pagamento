@@ -179,7 +179,7 @@ jobs:
 
       - name: Logar no Amazon ECR
         run: |
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 980921733871.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 390403893106.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Validar repositório ECR
         run: |
@@ -203,7 +203,7 @@ jobs:
       - name: Obter AWS Account ID e versão
         id: get-account-id
         run: |
-          ACCOUNT_ID=980921733871
+          ACCOUNT_ID=390403893106
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "AWS_ACCOUNT_ID=$ACCOUNT_ID" >> $GITHUB_ENV  
 
@@ -302,20 +302,20 @@ jobs:
       - name: Logar no Amazon ECR
         run: |
           AWS_REGION="us-east-1"
-          AWS_ACCOUNT_ID=980921733871
+          AWS_ACCOUNT_ID=390403893106
           echo "Fazendo login no ECR da conta ${AWS_ACCOUNT_ID}..."
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.$AWS_REGION.amazonaws.com
 
 
       - name: Baixar a imagem do ECR
         run: |
-          IMAGE_REPO="980921733871.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
+          IMAGE_REPO="390403893106.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
           docker pull $IMAGE_REPO
 
 
       - name: Substituir a versão da imagem no deployment.yaml
         run: |
-          IMAGE_REPO="980921733871.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
+          IMAGE_REPO="390403893106.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento:latest"
           sed -i "s|image: .*|image: $IMAGE_REPO|" kubernetes/deployment.yaml
 
 
