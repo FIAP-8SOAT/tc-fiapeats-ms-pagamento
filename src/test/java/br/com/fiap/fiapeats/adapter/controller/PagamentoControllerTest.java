@@ -3,6 +3,7 @@ package br.com.fiap.fiapeats.adapter.controller;
 import br.com.fiap.fiapeats.domain.entities.Pagamento;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoResponse;
+import br.com.fiap.fiapeats.usecases.dtos.ProdutosDTO;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.AtualizarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.CriarPagamentoUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public class PagamentoControllerTest {
@@ -33,7 +36,8 @@ public class PagamentoControllerTest {
     @Test
     void deveCriarPagamentoComSucesso() {
         var idPedido = UUID.randomUUID();
-        CriarPagamentoDTO criarPagamentoDTO = new CriarPagamentoDTO(idPedido, "http:pedido-notificacao");
+        ProdutosDTO produtosDTO = new ProdutosDTO(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        CriarPagamentoDTO criarPagamentoDTO = new CriarPagamentoDTO(idPedido, List.of(produtosDTO));
         Pagamento pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
 
         when(criarPagamentoUseCase.criar(criarPagamentoDTO)).thenReturn(pagamento);

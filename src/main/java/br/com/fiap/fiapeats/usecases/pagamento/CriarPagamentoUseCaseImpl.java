@@ -1,9 +1,8 @@
 package br.com.fiap.fiapeats.usecases.pagamento;
 
+import br.com.fiap.fiapeats.adapter.presenters.PedidoPresenter;
 import br.com.fiap.fiapeats.domain.entities.Pagamento;
-import br.com.fiap.fiapeats.external.config.BeanConfiguration;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
-import br.com.fiap.fiapeats.usecases.exceptions.NotFoundException;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.CriarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pedido.PedidoGateway;
@@ -24,21 +23,10 @@ public class CriarPagamentoUseCaseImpl implements CriarPagamentoUseCase {
 
   @Override
   public Pagamento criar(CriarPagamentoDTO criarPagamentoDTO) {
-    var pedido = pedidoGateway.consultar(criarPagamentoDTO.getIdPedido().toString());
-    if (pedido == null) {
-      throw new NotFoundException("Id pedido não encontrado");
-    }
-
     return pagamentoGateway.criar(
-            pedido,
+            PedidoPresenter.toCriarPedido(criarPagamentoDTO),
             new Pagamento(
-                    criarPagamentoDTO.getIdPedido(), getUrlNotificacao(criarPagamentoDTO), null));
+                    criarPagamentoDTO.getIdPedido(), urlNotificacao, null));
   }
 
-  public String getUrlNotificacao(CriarPagamentoDTO criarPagamentoDTO){
-      if (criarPagamentoDTO.getUrlNotificacao() == null){
-          return urlNotificacao;
-      }
-      return criarPagamentoDTO.getUrlNotificacao();
-  }
 }

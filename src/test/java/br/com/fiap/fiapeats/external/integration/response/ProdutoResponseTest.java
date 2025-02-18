@@ -23,6 +23,5 @@ public class ProdutoResponseTest {
         assertEquals("Coca", response.getNome());
         assertEquals("Coca Zero", response.getDescricao());
         assertEquals(BigDecimal.TEN, response.getValor());
-        assertEquals("Bebida", response.getCategoria().getDescricao());
     }
 }

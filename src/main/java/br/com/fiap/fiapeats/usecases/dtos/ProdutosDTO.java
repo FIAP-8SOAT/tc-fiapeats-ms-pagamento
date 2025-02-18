@@ -1,22 +1,26 @@
-package br.com.fiap.fiapeats.domain.entities;
+package br.com.fiap.fiapeats.usecases.dtos;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class Produto {
+public class ProdutosDTO {
 
     private UUID id;
-    private String nome;
-    private String descricao;
-    private BigDecimal valor;
-    private String categoria;
 
-    public Produto(UUID id, String nome, String descricao, BigDecimal valor, String categoria) {
+    private String nome;
+
+    private String descricao;
+
+    private BigDecimal valor;
+
+    private String categoriaDescricao;
+
+    public ProdutosDTO(UUID id, String nome, String descricao, BigDecimal valor, String categoriaDescricao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
-        this.categoria = categoria;
+        this.categoriaDescricao = categoriaDescricao;
     }
 
     public UUID getId() {
@@ -35,7 +39,7 @@ public class Produto {
         return valor;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getCategoriaDescricao() {
+        return categoriaDescricao;
     }
 }

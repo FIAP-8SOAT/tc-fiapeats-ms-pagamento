@@ -1,23 +1,26 @@
 package br.com.fiap.fiapeats.usecases.dtos;
 
+import br.com.fiap.fiapeats.domain.entities.Produto;
+
+import java.util.List;
 import java.util.UUID;
 
 public class CriarPagamentoDTO {
 
   private UUID idPedido;
 
-  private String urlNotificacao;
+  private List<ProdutosDTO> produtos;
 
-  public CriarPagamentoDTO(UUID idPedido, String urlNotificacao) {
+  public CriarPagamentoDTO(UUID idPedido, List<ProdutosDTO> produtos) {
     this.idPedido = idPedido;
-    this.urlNotificacao = urlNotificacao;
+    this.produtos = produtos;
   }
 
   public UUID getIdPedido() {
     return idPedido;
   }
 
-  public String getUrlNotificacao() {
-    return urlNotificacao;
+  public List<ProdutosDTO> getProdutos() {
+    return produtos;
   }
 }

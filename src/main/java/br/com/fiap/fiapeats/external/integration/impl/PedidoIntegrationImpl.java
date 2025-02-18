@@ -15,11 +15,9 @@ import org.apache.logging.log4j.ThreadContext;
 public class PedidoIntegrationImpl implements PedidoIntegration {
 
   private final PedidoFeign pedidoFeign;
-  private final PedidoIntegrationMapper mapper;
 
-  public PedidoIntegrationImpl(PedidoFeign pedidoFeign, PedidoIntegrationMapper pedidoIntegrationMapper) {
+  public PedidoIntegrationImpl(PedidoFeign pedidoFeign) {
     this.pedidoFeign = pedidoFeign;
-    this.mapper = pedidoIntegrationMapper;
   }
 
   @Override
@@ -31,7 +29,7 @@ public class PedidoIntegrationImpl implements PedidoIntegration {
                     + "[PedidoIntegrationImpl-consultarPedido] ");
 
     try {
-      return mapper.toPedido(pedidoFeign.consultar(idPedido).orElse(null));
+      return PedidoIntegrationMapper.toPedido(pedidoFeign.consultar(idPedido).orElse(null));
     } catch (FeignException e) {
       log.info("Erro a consultar a API de pedido. HTTP: " + e.status());
     }

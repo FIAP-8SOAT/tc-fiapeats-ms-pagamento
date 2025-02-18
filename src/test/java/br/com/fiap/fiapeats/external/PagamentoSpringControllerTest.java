@@ -3,9 +3,11 @@ package br.com.fiap.fiapeats.external;
 import br.com.fiap.fiapeats.adapter.controller.PagamentoController;
 import br.com.fiap.fiapeats.external.api.PagamentoSpringController;
 import br.com.fiap.fiapeats.external.api.contracts.request.CriarPagamentoRequest;
+import br.com.fiap.fiapeats.external.api.contracts.request.ProdutoRequest;
 import br.com.fiap.fiapeats.external.api.mapper.PagamentoMapper;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoResponse;
+import br.com.fiap.fiapeats.usecases.dtos.ProdutosDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,19 +33,22 @@ public class PagamentoSpringControllerTest {
     @Mock
     private PagamentoMapper pagamentoMapper;
     private CriarPagamentoDTO criarPagamentoDTO;
+    private ProdutosDTO produtosDTO;
     private CriarPagamentoResponse criarPagamentoResponse;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         var idPedido = UUID.randomUUID();
-        criarPagamentoDTO = new CriarPagamentoDTO(idPedido, "http:pedido-notificacao");
+        produtosDTO = new ProdutosDTO(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        criarPagamentoDTO = new CriarPagamentoDTO(idPedido, List.of(produtosDTO));
         criarPagamentoResponse = new CriarPagamentoResponse("codigoQR");
     }
 
     @Test
     void deveCriarPagamentoComSucesso() {
-        CriarPagamentoRequest criarPagamentoRequest = new CriarPagamentoRequest(UUID.randomUUID(), "http:pedido-notificacao");
+        ProdutoRequest produtoRequest = new ProdutoRequest(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        CriarPagamentoRequest criarPagamentoRequest = new CriarPagamentoRequest(UUID.randomUUID(), List.of(produtoRequest));
 
         when(pagamentoMapper.toCriarPagamentoDTO(criarPagamentoRequest)).thenReturn(criarPagamentoDTO);
         when(pagamentoController.criarPagamento(criarPagamentoDTO)).thenReturn(criarPagamentoResponse);
