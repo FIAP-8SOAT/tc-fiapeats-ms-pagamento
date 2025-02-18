@@ -10,7 +10,7 @@ services:
     profiles: [ app ]
     restart: on-failure
     ports:
-      - "8081:8081"
+      - "8082:8080"
     env_file: "variables/ambient.env"
     networks:
       - fiapeats-all-ms-network
