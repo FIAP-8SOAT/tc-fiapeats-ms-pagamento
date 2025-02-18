@@ -267,10 +267,10 @@ jobs:
             echo "Deploy no ambiente de produção. Atualizando com a imagem 'latest'..."
             docker tag $IMAGE_REPO:$VERSION $IMAGE_REPO:latest
             docker push $IMAGE_REPO:latest
-            kubectl set image deployment/ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:latest -n fiapeats-hk
+            kubectl set image deployment/ms-pagamento-deployment ms-pagamento-container=$IMAGE_REPO:latest -n fiapeats-hk
           else
             echo "Deploy no ambiente de desenvolvimento. Atualizando com a imagem versionada..."
-            kubectl set image deployment/ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:$VERSION -n fiapeats-hk
+            kubectl set image deployment/ms-pagamento-deployment ms-pagamento-container=$IMAGE_REPO:$VERSION -n fiapeats-hk
           fi
 
   # Job para deploy no ambiente de produção
