@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: ms-pagamento-container
-          image: dilanclima/ms-pagamento:latest
+          image: "dilanclima/ms-pagamento:latest"
           ports:
             - containerPort: 8080
           env:
