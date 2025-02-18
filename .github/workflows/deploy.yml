@@ -315,11 +315,6 @@ jobs:
           echo "Imagem: $IMAGE_REPO:$VERSION"
           docker pull $IMAGE_REPO:$VERSION
 
-      - name: Substituir a versão da imagem no deployment.yaml
-        run: |
-          sed -i "s|image: .*|image: $IMAGE_REPO:$VERSION|" kubernetes/deployment.yaml
-
-
       - name: Deploy no ambiente de produção
         run: |
           kubectl apply -f kubernetes/deployment.yaml
