@@ -175,7 +175,7 @@ jobs:
 
       - name: Verificar cluster EKS
         run: |
-          aws eks describe-cluster --name eks-cluster --region us-east-1 || echo "Cluster não encontrado."
+          aws eks describe-cluster --name eks-fiapeats-cluster --region us-east-1 || echo "Cluster não encontrado."
 
       - name: Logar no Amazon ECR
         run: |
@@ -209,7 +209,7 @@ jobs:
 
       - name: Atualizar configuração do Kubernetes
         run: |
-          aws eks update-kubeconfig --name eks-cluster --region us-east-1
+          aws eks update-kubeconfig --name eks-fiapeats-cluster --region us-east-1
           kubectl cluster-info
 
       - name: Obter login no Amazon ECR
@@ -296,7 +296,7 @@ jobs:
 
       - name: Atualizar configuração do Kubernetes
         run: |
-          aws eks update-kubeconfig --name eks-cluster --region us-east-1
+          aws eks update-kubeconfig --name eks-fiapeats-cluster --region us-east-1
           kubectl cluster-info
 
       - name: Logar no Amazon ECR
