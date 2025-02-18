@@ -33,7 +33,7 @@ public class PedidoGatewayImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         idPedido = UUID.randomUUID();
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, new Categoria(1L, "Bebida"))),
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Produto", "Descricao Produto", BigDecimal.TEN, "Bebida")),
                 "12345678901", BigDecimal.TEN, "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 10);
     }
 

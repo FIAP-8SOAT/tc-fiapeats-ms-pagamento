@@ -21,32 +21,32 @@ public class StatusPagamentoTest {
 
     @Test
     void testGetNome() {
-        assertEquals("PENDENTE", StatusPagamento.PENDENTE.getNome());
-        assertEquals("APROVADO", StatusPagamento.APROVADO.getNome());
-        assertEquals("RECUSADO", StatusPagamento.RECUSADO.getNome());
-        assertEquals("EM_ANALISE", StatusPagamento.EM_ANALISE.getNome());
-        assertEquals("ESTORNADO", StatusPagamento.ESTORNADO.getNome());
-        assertEquals("CANCELADO", StatusPagamento.CANCELADO.getNome());
-        assertEquals("DESCONHECIDO", StatusPagamento.DESCONHECIDO.getNome());
+        assertEquals("Pendente", StatusPagamento.PENDENTE.getNome());
+        assertEquals("Aprovado", StatusPagamento.APROVADO.getNome());
+        assertEquals("Recusado", StatusPagamento.RECUSADO.getNome());
+        assertEquals("Em analise", StatusPagamento.EM_ANALISE.getNome());
+        assertEquals("Estornado", StatusPagamento.ESTORNADO.getNome());
+        assertEquals("Cancelado", StatusPagamento.CANCELADO.getNome());
+        assertEquals("Desconhecido", StatusPagamento.DESCONHECIDO.getNome());
     }
 
     @Test
     void testGetValidName() {
-        assertEquals(1, StatusPagamento.get("PENDENTE"));
-        assertEquals(2, StatusPagamento.get("APROVADO"));
-        assertEquals(3, StatusPagamento.get("RECUSADO"));
-        assertEquals(4, StatusPagamento.get("EM_ANALISE"));
-        assertEquals(5, StatusPagamento.get("ESTORNADO"));
-        assertEquals(6, StatusPagamento.get("CANCELADO"));
-        assertEquals(7, StatusPagamento.get("DESCONHECIDO"));
+        assertEquals(1, StatusPagamento.get("Pendente"));
+        assertEquals(2, StatusPagamento.get("Aprovado"));
+        assertEquals(3, StatusPagamento.get("Recusado"));
+        assertEquals(4, StatusPagamento.get("Em analise"));
+        assertEquals(5, StatusPagamento.get("Estornado"));
+        assertEquals(6, StatusPagamento.get("Cancelado"));
+        assertEquals(7, StatusPagamento.get("Desconhecido"));
     }
 
     @Test
     void testGetInvalidName() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            StatusPagamento.get("INVALIDO");
+            StatusPagamento.get("Invalido");
         });
 
-        assertEquals("Nome inválido: INVALIDO", exception.getMessage());
+        assertEquals("Nome inválido: Invalido", exception.getMessage());
     }
 }

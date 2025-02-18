@@ -2,6 +2,7 @@ package br.com.fiap.fiapeats.usecases;
 
 import br.com.fiap.fiapeats.domain.entities.*;
 import br.com.fiap.fiapeats.usecases.dtos.CriarPagamentoDTO;
+import br.com.fiap.fiapeats.usecases.dtos.ProdutosDTO;
 import br.com.fiap.fiapeats.usecases.exceptions.NotFoundException;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pedido.PedidoGateway;
@@ -33,39 +34,27 @@ public class CriarPagamentoUseCaseImplTest {
     private Pedido pedido;
     private Pagamento pagamento;
     private CriarPagamentoDTO criarPagamentoDTO;
+    private ProdutosDTO produtosDTO;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         var idPedido = UUID.randomUUID();
-        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new Categoria(1L, "Bebida"))), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
+        pedido = new Pedido(idPedido, List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
         pagamento = new Pagamento(idPedido, "http:pedido-notificacao", "codigoQR");
-        criarPagamentoDTO = new CriarPagamentoDTO(idPedido, "http:pedido-notificacao");
+        produtosDTO = new ProdutosDTO(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        criarPagamentoDTO = new CriarPagamentoDTO(idPedido, List.of(produtosDTO));
     }
 
     @Test
     void deveAtualizarPagamentoParaAprovadoComSucesso() {
-        when(pedidoGateway.consultar(anyString())).thenReturn(pedido);
         when(pagamentoGateway.criar(any(), any())).thenReturn(pagamento);
 
         Pagamento response = criarPagamentoUseCase.criar(criarPagamentoDTO);
 
         assertNotNull(response);
         assertNotNull(response.getCodigoQr());
-        verify(pedidoGateway, times(1)).consultar(anyString());
         verify(pagamentoGateway, times(1)).criar(any(), any());
     }
-
-    @Test
-    void deveRetornarNotFoundExceptionQuandoIdPedidoNaoEncontrado() {
-        when(pedidoGateway.consultar(anyString())).thenReturn(null);
-
-        NotFoundException exception = assertThrows(NotFoundException.class, () ->
-                criarPagamentoUseCase.criar(criarPagamentoDTO));
-
-        verify(pedidoGateway, times(1)).consultar(anyString());
-        assertEquals("Id pedido não encontrado", exception.getMessage());
-    }
-
 
 }

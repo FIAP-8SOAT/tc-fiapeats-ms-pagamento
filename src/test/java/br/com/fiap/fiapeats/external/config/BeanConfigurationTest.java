@@ -8,7 +8,6 @@ import br.com.fiap.fiapeats.external.integration.feign.PedidoFeign;
 import br.com.fiap.fiapeats.external.integration.feign.PedidoPagamentoFeign;
 import br.com.fiap.fiapeats.external.integration.mapper.PagamentoIntegrationMapper;
 import br.com.fiap.fiapeats.external.integration.mapper.PagamentoPedidoIntegrationMapper;
-import br.com.fiap.fiapeats.external.integration.mapper.PedidoIntegrationMapper;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.AtualizarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.in.pagamento.CriarPagamentoUseCase;
 import br.com.fiap.fiapeats.usecases.interfaces.out.pagamento.PagamentoGateway;
@@ -42,8 +41,6 @@ public class BeanConfigurationTest {
     private PagamentoPedidoIntegrationMapper pagamentoPedidoIntegrationMapper;
     @Mock
     private PedidoFeign pedidoFeign;
-    @Mock
-    private PedidoIntegrationMapper pedidoIntegrationMapper;
     @Mock
     private CriarPagamentoUseCase criarPagamentoUseCase;
     @Mock
@@ -86,7 +83,7 @@ public class BeanConfigurationTest {
 
     @Test
     void deveCriarBeanPedidoIntegration() {
-        PedidoIntegration integration = beanConfiguration.pedidoIntegration(pedidoFeign, pedidoIntegrationMapper);
+        PedidoIntegration integration = beanConfiguration.pedidoIntegration(pedidoFeign);
         assertNotNull(integration);
     }
 

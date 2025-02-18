@@ -37,7 +37,7 @@ public class AtualizarPagamentoUseCaseImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        pedido = new Pedido(UUID.randomUUID(), List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), new Categoria(1L, "Bebida"))), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
+        pedido = new Pedido(UUID.randomUUID(), List.of(new Produto(UUID.randomUUID(), "Coca", "Coca Zero", new BigDecimal("10"), "Bebida")), "12345678901", new BigDecimal("10"), "Pendente", new PagamentoPedido("Pendente", 1L, null), LocalDateTime.now(), 15);
         pagamentoPedidoExterno = new PagamentoPedidoExterno(STATUS_PAGAMENTO_PEDIDO, UUID.randomUUID().toString(), List.of(new PagamentoExterno("123", STATUS_PAGAMENTO)));
     }
 

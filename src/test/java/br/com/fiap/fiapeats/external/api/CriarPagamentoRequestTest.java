@@ -1,6 +1,7 @@
 package br.com.fiap.fiapeats.external.api;
 
 import br.com.fiap.fiapeats.external.api.contracts.request.CriarPagamentoRequest;
+import br.com.fiap.fiapeats.external.api.contracts.request.ProdutoRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +26,8 @@ public class CriarPagamentoRequestTest {
 
     @Test
     void deveValidarCriarPagamentoRequestComSucesso() {
-        CriarPagamentoRequest request = new CriarPagamentoRequest(UUID.randomUUID(), "http:pedido-notificacao");
+        ProdutoRequest produtoRequest = new ProdutoRequest(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        CriarPagamentoRequest request = new CriarPagamentoRequest(UUID.randomUUID(), List.of(produtoRequest));
 
         Set<ConstraintViolation<CriarPagamentoRequest>> violations = validator.validate(request);
 
@@ -33,7 +37,8 @@ public class CriarPagamentoRequestTest {
 
     @Test
     void deveRetornarErroQuandoIdPedidoForNulo() {
-        CriarPagamentoRequest request = new CriarPagamentoRequest(null, "http:pedido-notificacao");
+        ProdutoRequest produtoRequest = new ProdutoRequest(UUID.randomUUID(), "produto", "produto", BigDecimal.TEN, "Bebida");
+        CriarPagamentoRequest request = new CriarPagamentoRequest(null, List.of(produtoRequest));
 
         Set<ConstraintViolation<CriarPagamentoRequest>> violations = validator.validate(request);
 

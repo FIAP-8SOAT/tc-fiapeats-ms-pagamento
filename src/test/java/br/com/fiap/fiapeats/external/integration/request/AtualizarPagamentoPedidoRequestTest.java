@@ -15,6 +15,6 @@ public class AtualizarPagamentoPedidoRequestTest {
 
         assertNotNull(request);
         assertEquals(2L, request.getId());
-        assertEquals("APROVADO", request.getStatus());
+        assertEquals("Aprovado", request.getStatus());
     }
 }

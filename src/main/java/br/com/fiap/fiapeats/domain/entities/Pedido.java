@@ -18,6 +18,11 @@ public class Pedido {
     private LocalDateTime dataCriacao;
     private int tempoEspera;
 
+    public Pedido(UUID id, List<Produto> produtos) {
+        this.id = id;
+        this.produtos = produtos;
+    }
+
     public Pedido(UUID id, List<Produto> produtos, String cpf, BigDecimal valor, String statusOrdem, PagamentoPedido pagamento, LocalDateTime dataCriacao, int tempoEspera) {
         this.id = id;
         this.produtos = produtos;

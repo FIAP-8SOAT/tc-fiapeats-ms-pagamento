@@ -58,10 +58,8 @@ public class BeanConfiguration {
   }
 
   @Bean
-  public PedidoIntegration pedidoIntegration(
-          PedidoFeign pedidoFeign, PedidoIntegrationMapper pedidoIntegrationMapper) {
-    return new PedidoIntegrationImpl(
-            pedidoFeign, pedidoIntegrationMapper);
+  public PedidoIntegration pedidoIntegration(PedidoFeign pedidoFeign) {
+    return new PedidoIntegrationImpl(pedidoFeign);
   }
 
   @Bean

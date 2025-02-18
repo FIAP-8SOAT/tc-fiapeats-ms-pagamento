@@ -1,8 +1,10 @@
 package br.com.fiap.fiapeats.external.api.contracts.request;
 
+import br.com.fiap.fiapeats.domain.entities.Produto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CriarPagamentoRequest {
@@ -11,21 +13,21 @@ public class CriarPagamentoRequest {
   @Schema(description = "Id do pedido", example = "d212192c-8155-440a-9eda-3d77732458bb")
   private final UUID idPedido;
 
+  @NotNull(message = "Não pode ser null")
   @Schema(
-      description = "Url para receber notificações de status de pagamento",
-      example = "https://ba08-45-173-179-15.ngrok-free.app/fiapeats/pagamento/notificacao")
-  private final String urlNotificacao;
+      description = "Produtos associados ao pedido")
+  private final List<ProdutoRequest> produtos;
 
-  public CriarPagamentoRequest(UUID idProduto, String urlNotificacao) {
-    this.idPedido = idProduto;
-    this.urlNotificacao = urlNotificacao;
+  public CriarPagamentoRequest(UUID idPedido, List<ProdutoRequest> produtos) {
+    this.idPedido = idPedido;
+    this.produtos = produtos;
   }
 
   public UUID getIdPedido() {
     return idPedido;
   }
 
-  public String getUrlNotificacao() {
-    return urlNotificacao;
+  public List<ProdutoRequest> getProdutos() {
+    return produtos;
   }
 }
