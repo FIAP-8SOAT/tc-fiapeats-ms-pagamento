@@ -231,7 +231,7 @@ jobs:
           docker build --build-arg JAR_VERSION=$VERSION -t $IMAGE_REPO:$VERSION .
 
           # Caso seja produção, também criar e push da tag 'latest'
-          if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "Ambiente de produção detectado. Criando tag 'latest' para a imagem Docker."
             docker tag $IMAGE_REPO:$VERSION $IMAGE_REPO:latest
           else
@@ -263,7 +263,7 @@ jobs:
           IMAGE_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento"
           
           # Determinar se o deploy é de produção
-          if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "Deploy no ambiente de produção. Atualizando com a imagem 'latest'..."
             docker tag $IMAGE_REPO:$VERSION $IMAGE_REPO:latest
             docker push $IMAGE_REPO:latest
@@ -322,16 +322,8 @@ jobs:
       - name: Deploy no ambiente de produção
         run: |
           kubectl apply -f kubernetes/deployment.yaml
-          kubectl apply -f kubernetes/ingress.yaml
-          kubectl apply -f kubernetes/service.yaml
-          kubectl apply -f kubernetes/configMap.yaml
-          kubectl apply -f kubernetes/dashboard.yaml
-          kubectl apply -f kubernetes/hpa.yaml
-          kubectl apply -f kubernetes/metrics.yaml
-          kubectl apply -f kubernetes/secrets.yaml
-          kubectl apply -f kubernetes/service_eks.yaml
-          kubectl apply -f kubernetes/userAdmin.yaml
+
       - name: Health Check após Deploy
         run: |
-          kubectl rollout status deployment/fiapeats-ms-pagamento-deployment -n default --timeout=5m
-          kubectl get pods -n default
+          kubectl rollout status deployment/fiapeats-ms-pagamento-deployment -n fiapeats-hk  --timeout=5m
+          kubectl get pods -n fiapeats-hk 
