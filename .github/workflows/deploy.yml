@@ -241,15 +241,19 @@ jobs:
 
       - name: Push da imagem para o Amazon ECR
         run: |
+          # Captura a versão do projeto a partir do Maven
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Versão detectada: $VERSION"
+
           IMAGE_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/fiapeats-ms-pagamento"
+          
+          echo "Fazendo push da imagem $IMAGE_REPO:$VERSION..."        
           docker push $IMAGE_REPO:$VERSION
           
           # Tag e push para latest apenas para produção
-          if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "Fazendo merge na latest"
-            docker tag $IMAGE_REPO:$VERSION $IMAGE_REPO:latest
-            docker push $IMAGE_REPO:latest
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "Push da tag 'latest' para produção."
+          docker push $IMAGE_REPO:latest
           fi
 
 
@@ -264,10 +268,10 @@ jobs:
             echo "Deploy no ambiente de produção. Atualizando com a imagem 'latest'..."
             docker tag $IMAGE_REPO:$VERSION $IMAGE_REPO:latest
             docker push $IMAGE_REPO:latest
-            kubectl set image deployment/fiapeats-ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:latest
+            kubectl set image deployment/fiapeats-ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:latest -n fiapeats-hk
           else
             echo "Deploy no ambiente de desenvolvimento. Atualizando com a imagem versionada..."
-            kubectl set image deployment/fiapeats-ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:$VERSION
+            kubectl set image deployment/fiapeats-ms-pagamento-deployment fiapeats-ms-pagamento-container=$IMAGE_REPO:$VERSION -n fiapeats-hk
           fi
 
   # Job para deploy no ambiente de produção
