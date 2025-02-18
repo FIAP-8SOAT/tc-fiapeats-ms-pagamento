@@ -38,5 +38,4 @@ spec:
               port: 8081
             initialDelaySeconds: 105
             periodSeconds: 10
-
       restartPolicy: Always
